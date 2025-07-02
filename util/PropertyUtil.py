@@ -1,6 +1,6 @@
 class PropertyUtil:
     @staticmethod
-    def get_property_dict(file_path=r'D:\CaseStudy\db.properties'):
+    def get_property_dict(file_path=r'D:\CaseStudy\db.properties'): # Change the File path if db.properties
         props = {}
         required_keys = ['host', 'port', 'dbname', 'user', 'password']
 
