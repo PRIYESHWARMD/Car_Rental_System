@@ -1,0 +1,79 @@
+create database Car_Rental_System;
+use Car_Rental_System;
+
+
+create table vehicle (
+    vehicle_id int primary key auto_increment,
+    make varchar(50),
+    model varchar(50),
+    year int,
+    daily_rate decimal(10, 2),
+    status enum('available', 'notavailable'),
+    passenger_capacity int,
+    engine_capacity decimal(5, 2)
+);
+
+INSERT INTO vehicle (make, model, year, daily_rate, status, passenger_capacity, engine_capacity) VALUES
+('TATA', 'NextGen', 2023, 20.00, 'available', 5, 3.0),
+('Honda', 'Civic', 2022, 35.00, 'available', 5, 2.0),
+('Toyota', 'Camry', 2021, 40.00, 'notavailable', 5, 2.5),
+('Ford', 'Mustang', 2023, 55.00, 'available', 4, 5.0),
+('Hyundai', 'i20', 2020, 25.00, 'available', 5, 1.2);
+
+
+create table customer (
+    customer_id int primary key auto_increment,
+    first_name varchar(50),
+    last_name varchar(50),
+    email varchar(100) unique,
+    phone_number varchar(20)
+);
+INSERT INTO customer (first_name, last_name, email, phone_number) VALUES
+('Alice', 'Smith', 'alice@example.com', '1234567890'),
+('Bob', 'Johnson', 'bob@example.com', '0987654321'),
+('Charlie', 'Brown', 'charlie@example.com', '1112223333'),
+('Diana', 'Prince', 'diana@example.com', '4445556666'),
+('Evan', 'Williams', 'evan@example.com', '7778889999');
+
+
+
+create table lease (
+    lease_id int primary key auto_increment,
+    vehicle_id int references vehicle(vehicleid),
+    customer_id int references customer(customerid),
+    start_date date,
+    end_date date,
+    type enum('daily', 'monthly')
+    
+);
+INSERT INTO lease (vehicle_id, customer_id, start_date, end_date, type) VALUES
+(1, 1, '2025-06-01', '2025-06-05', 'daily'),
+(2, 2, '2025-06-10', '2025-07-10', 'monthly'),
+(3, 3, '2025-06-15', '2025-06-20', 'daily'),
+(4, 4, '2025-06-05', '2025-07-05', 'monthly'),
+(5, 5, '2025-06-25', '2025-06-30', 'daily');
+
+ALTER TABLE lease ADD COLUMN rental_amount DECIMAL(10,2);
+
+
+
+create table payment (
+    payment_id int primary key auto_increment,
+    lease_id int references lease(leaseid),
+    payment_date date,
+    amount decimal(10, 2)
+  
+);
+
+INSERT INTO payment (lease_id, payment_date, amount) VALUES
+(1, '2025-06-01', 100.00),
+(2, '2025-06-10', 1050.00),
+(3, '2025-06-15', 200.00),
+(4, '2025-06-05', 1500.00),
+(5, '2025-06-25', 125.00);
+
+
+select * from lease;
+select * from vehicle;
+select * from payment;
+select * from customer;
